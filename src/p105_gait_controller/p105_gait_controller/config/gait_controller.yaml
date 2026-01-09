@@ -1,0 +1,64 @@
+gait_controller:
+  ros__parameters:
+    # ROS topics to subscribe/publish
+    topics:
+      joint_states: /joint_states
+      cmd_vel: /cmd_vel
+      odom: /odom
+      command_out: /forward_command_controller/commands
+
+    model:
+      nominal_height: 0.15  # meters
+      # Robot leg geometry parameters (in meters)
+      l1: 0.0255  # hip lateral offset
+      l2: 0.1000  # thigh link length
+      l3: 0.1020  # calf link length
+      l4: 0.0140  # knee lateral offset
+
+    gait_controller:
+      control_dt: 0.005  # Control loop time step in seconds
+      cart_kp: 100.0     # Cartesian PD position gain
+      cart_kd: 5.0       # Cartesian PD damping gain
+
+
+    # gait_scheduler.py parameters
+    gait_scheduler:
+      frequency_hz: 2.0
+      duty_factor: 0.5
+      phase_offsets: [0.0, 0.5, 0.5, 0.0]   # FL, FR, RL, RR
+
+    # foot_trajectory.py parameters
+    foot_trajectory:
+      swing_height: 0.05
+      control_point_fraction: 0.5
+      stance_hold: true
+
+      # raibert foot placement params
+      placement_time_fraction: 0.5
+      vel_gain: 1.0
+      max_step_xy: 0.08
+
+    # leg_interface.py parameters
+    leg_interface:
+      ik_mode: position  # "position" or "velocity" - IK control mode
+      ik_lambda: 1e-3  # damped least squares lambda
+      ik_step_scale: 0.5   # position mode: position gain (0.5 = move 50% per step)
+                           # velocity mode: time scaling factor
+
+      # Safety limits
+      max_dq_per_step: 0.10  # increased to allow faster convergence with new position-based IK
+      joint_pos_min: [-2.5, -2.5, -2.8]
+      joint_pos_max: [ 2.5,  2.5,  0.2]
+
+      # When state is stale, hold last command (or output zeros if not available)
+      state_timeout_sec: 0.15
+      # [Optional] position control outputs q_des only; kp, kd for torque control
+      default_hold_kp: 0.0
+      default_hold_kd: 0.0
+      
+      # Nominal stance foot x,y offsets in hip frame [x, y] (meters)
+      # z value is computed from model.nominal_height (feet below body)
+      nominal_stance_fl: [0.024, 0.040]
+      nominal_stance_fr: [0.024, -0.040]
+      nominal_stance_rl: [-0.038, 0.040]
+      nominal_stance_rr: [-0.038, -0.040]

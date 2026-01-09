@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="p105_robot">
+
+    <xacro:include filename="p105.urdf.xacro" />
+    <xacro:include filename="p105.ros2_control.xacro" />
+
+    <xacro:p105_urdf />
+
+    <xacro:p105_ros2_control name="p105_ros2_control" />
+
+</robot>

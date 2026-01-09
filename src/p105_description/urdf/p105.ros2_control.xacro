@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="leg_ros2_control" params="prefix">
+    <!-- hip joint -->
+    <joint name="${prefix}_hip_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- thigh joint -->
+    <joint name="${prefix}_thigh_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.7</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- calf joint -->
+    <joint name="${prefix}_calf_joint">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">-1.4</param>
+      </state_interface>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+  
+  <!-- ========================================================= -->
+  <xacro:macro name="p105_ros2_control" params="name">
+
+    <ros2_control name="${name}" type="system">
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+      </hardware>
+
+      <!-- Front Left -->
+      <xacro:leg_ros2_control prefix="FL"/>
+
+      <!-- Front Right -->
+      <xacro:leg_ros2_control prefix="FR"/>
+
+      <!-- Rear Left -->
+      <xacro:leg_ros2_control prefix="RL"/>
+
+      <!-- Rear Right -->
+      <xacro:leg_ros2_control prefix="RR"/>
+
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>
