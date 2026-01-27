@@ -13,7 +13,6 @@ from std_msgs.msg import Float64MultiArray
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 
-# ---- your modules ----
 from .src.robot_state import RobotState
 from .src.state_estimator import DummyEstimator, OdomEstimator
 from .src.gait_scheduler import GaitScheduler, LegPhase

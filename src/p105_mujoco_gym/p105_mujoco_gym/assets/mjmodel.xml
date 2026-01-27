@@ -1,11 +1,16 @@
 <mujoco model="p105_robot">
-  <compiler angle="radian" meshdir="./meshes/" autolimits="true"/>
-  <option timestep="0.002" integrator="implicitfast"/>
+  <keyframe>
+    <key name="home" 
+      qpos="0 0 0.5  1 0 0 0   0 0.7 -1.4   0 0.7 -1.4   0 0.7 -1.4   0 0.7 -1.4"
+      ctrl="0 0.7 -1.4   0 0.7 -1.4   0 0.7 -1.4   0 0.7 -1.4" />
+  </keyframe>
+  <compiler angle="radian" meshdir="./meshes/" autolimits="true" inertiafromgeom="true" boundinertia="1e-4"/>
+  <option timestep="0.001" integrator="implicitfast" />
 
   <default>
     <joint armature="0.02" damping="0.05" frictionloss="0.02"/>
 
-    <position kp="40" gear="10" ctrlrange="-1.57 1.57" forcerange="-3.43 3.43"/>
+    <position kp="400" gear="1" ctrlrange="-1.57 1.57" forcerange="-20.0 20.0"/>
   </default>
 
   <asset>
@@ -21,20 +26,24 @@
 
   <worldbody>
     <geom name="floor" type="plane" size="0 0 0.05" rgba="0.2 0.2 0.2 1"/>
-    <body name="base_link" pos="0 0 0.25">
+    <body name="base_link" pos="0 0 0.5">
       <freejoint/>
+      <inertial pos="0.001 0.0 0.001" mass="1.0" diaginertia="0.001 0.003 0.0031"/>
       <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0 0.2 0.3 1" mesh="body"/>
       <geom type="mesh" rgba="0 0.2 0.3 1" mesh="body"/>
       <body name="FL_hip_link" pos="0.074 0.0473 0.0115">
         <joint name="FL_hip_joint" pos="0 0 0" axis="1 0 0" range="-1 1"/>
+        <inertial pos="-0.031 -0.01 -0.01" mass="0.318" diaginertia="0.0004 0.0004 0.0004"/>
         <geom quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fl_hip"/>
         <geom quat="0.000796327 0 0 1" type="mesh" mesh="fl_hip"/>
         <body name="FL_thigh_link" pos="0.021 0.0255 -0.001">
           <joint name="FL_thigh_joint" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <inertial pos="0.0 -0.014 -0.044" mass="0.055" diaginertia="0.0001 0.0001 0.0001"/>
           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="fl_thigh"/>
           <geom type="mesh" rgba="1 1 1 1" mesh="fl_thigh"/>
           <body name="FL_calf_link" pos="0 0.014 -0.1">
             <joint name="FL_calf_joint" pos="0 0 0" axis="0 1 0" range="-3.14 0"/>
+            <inertial pos="0.001 0.0 -0.088" mass="0.047" diaginertia="0.0001 0.0001 0.0001"/>
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fl_calf"/>
             <geom type="mesh" mesh="fl_calf"/>
             <geom size="0.013" pos="0.003 0 -0.102" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
@@ -44,14 +53,17 @@
       </body>
       <body name="FR_hip_link" pos="0.074 -0.0473 0.0115">
         <joint name="FR_hip_joint" pos="0 0 0" axis="1 0 0" range="-1 1"/>
+        <inertial pos="-0.031 0.01 -0.01" mass="0.318" diaginertia="0.0004 0.0004 0.0004"/>
         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fr_hip"/>
         <geom type="mesh" mesh="fr_hip"/>
         <body name="FR_thigh_link" pos="0.021 -0.0255 -0.001">
           <joint name="FR_thigh_joint" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <inertial pos="0.0 0.014 -0.044" mass="0.055" diaginertia="0.0001 0.0001 0.0001"/>
           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="fr_thigh"/>
           <geom type="mesh" rgba="1 1 1 1" mesh="fr_thigh"/>
           <body name="FR_calf_link" pos="0 -0.014 -0.1">
             <joint name="FR_calf_joint" pos="0 0 0" axis="0 1 0" range="-3.14 0"/>
+            <inertial pos="0.001 0.0 -0.088" mass="0.047" diaginertia="0.0001 0.0001 0.0001"/>
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fl_calf"/>
             <geom type="mesh" mesh="fl_calf"/>
             <geom size="0.013" pos="0.003 0 -0.102" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
@@ -61,14 +73,17 @@
       </body>
       <body name="RL_hip_link" pos="-0.074 0.0473 0.0115">
         <joint name="RL_hip_joint" pos="0 0 0" axis="1 0 0" range="-1 1"/>
+        <inertial pos="-0.031 -0.01 -0.01" mass="0.318" diaginertia="0.0004 0.0004 0.0004"/>
         <geom quat="0.000796327 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="rl_hip"/>
         <geom quat="0.000796327 0 0 1" type="mesh" mesh="rl_hip"/>
         <body name="RL_thigh_link" pos="-0.041 0.0255 -0.001">
           <joint name="RL_thigh_joint" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <inertial pos="0.0 -0.014 -0.044" mass="0.055" diaginertia="0.0001 0.0001 0.0001"/>
           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="fl_thigh"/>
           <geom type="mesh" rgba="1 1 1 1" mesh="fl_thigh"/>
           <body name="RL_calf_link" pos="0 0.014 -0.1">
             <joint name="RL_calf_joint" pos="0 0 0" axis="0 1 0" range="-3.14 0"/>
+            <inertial pos="0.001 0.0 -0.088" mass="0.047" diaginertia="0.0001 0.0001 0.0001"/>
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fl_calf"/>
             <geom type="mesh" mesh="fl_calf"/>
             <geom size="0.013" pos="0.003 0 -0.102" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
@@ -78,14 +93,17 @@
       </body>
       <body name="RR_hip_link" pos="-0.074 -0.0473 0.0115">
         <joint name="RR_hip_joint" pos="0 0 0" axis="1 0 0" range="-1 1"/>
+        <inertial pos="-0.031 0.01 -0.01" mass="0.318" diaginertia="0.0004 0.0004 0.0004"/>
         <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="rr_hip"/>
         <geom type="mesh" mesh="rr_hip"/>
         <body name="RR_thigh_link" pos="-0.041 -0.0255 -0.001">
           <joint name="RR_thigh_joint" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <inertial pos="0.0 0.014 -0.044" mass="0.055" diaginertia="0.0001 0.0001 0.0001"/>
           <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="1 1 1 1" mesh="fr_thigh"/>
           <geom type="mesh" rgba="1 1 1 1" mesh="fr_thigh"/>
           <body name="RR_calf_link" pos="0 -0.014 -0.1">
             <joint name="RR_calf_joint" pos="0 0 0" axis="0 1 0" range="-3.14 0"/>
+            <inertial pos="0.001 0.0 -0.088" mass="0.047" diaginertia="0.0001 0.0001 0.0001"/>
             <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="fl_calf"/>
             <geom type="mesh" mesh="fl_calf"/>
             <geom size="0.013" pos="0.003 0 -0.102" contype="0" conaffinity="0" group="1" density="0" rgba="1 0 0 1"/>
